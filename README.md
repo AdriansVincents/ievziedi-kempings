@@ -1,26 +1,56 @@
-# 🏕️ Ievziedi Kempinga Datu Bāze — Versija 1.0
+# Ievziedi Kempinga Datu Bāze — Versija 2.0
 
-Šis ir **projekta “Ievziedi” kempinga datubāzes pirmais izlaidums**.  
-Datubāze izstrādāta, lai glabātu informāciju par kempinga piedāvātajiem pakalpojumiem, piemēram — mājiņām, pirtīm, kubliem, laivām un SUP dēļiem.
-
-## 📘 Apraksts
-Datubāze izveidota, izmantojot **phpMyAdmin** un **MySQL**.  
-Tajā ietilpst vairākas tabulas, kas sākotnēji bija sadalītas pa atsevišķiem pakalpojumiem.
-
-Šī versija paredz:
-- Pamata tabulu struktūras izveidi
-- Katrs pakalpojuma veids ir atsevišķā tabulā (piem., `Boats`, `Sup_boards`, `Cottages`, `Sauna`, `Hot_tub`)
-- Primārie atslēgas lauki (`id`) un pamata datu tipi
-- Sākotnējā relāciju plānošana ER diagrammai
-
-## 🔄 Nākamā versija (plāns)
-Nākamajā versijā datubāze tiks uzlabota:
-- Visi pakalpojumi tiks apvienoti vienā **`products`** tabulā
-- Tiks pievienotas tabulas **`clients`** un **`bookings`**, lai pārvaldītu rezervācijas
-- Plānots uzlabot relācijas un datu strukturējumu
+Šī ir **uzlabotā datubāzes versija** kempingam *“Ievziedi”*, kas paredzēta reālai tīmekļa vietnes lietošanai.
 
 ---
 
-👩‍💻 Autors: *Adrians Vincents Šuķevics*  
-📅 Versija: 1.0  
-🛠️ Datubāzes tips: MySQL
+## Apraksts
+
+Versija 2.0 pārveido sākotnējo struktūru, apvienojot pakalpojumus vienotā sistēmā, kas ir **elastīgāka un vieglāk uzturama**.  
+Tagad datubāze ir pielāgota, lai pārvaldītu gan klientus, gan rezervācijas, gan visus pieejamos kempinga pakalpojumus.
+
+---
+
+## Datubāzes struktūra
+
+### **Galvenās tabulas:**
+1. **`products`** — satur visus kempinga pakalpojumus (mājiņas, pirts, kubli, laivas, SUP dēļi, velosipēdi u.c.)
+   - `id` — unikāls produkta identifikators  
+   - `name` — produkta nosaukums  
+   - `type` — kategorija (piem., “house”, “sauna”, “boat”, “bike” u.c.)  
+   - `price` — cena par vienību vai dienu  
+   - `description` — īss apraksts  
+   - `image` — attēla ceļš vai URL
+
+2. **`clients`** — glabā klientu informāciju  
+   - `id`, `name`, `email`, `phone`, `created_at`
+
+3. **`bookings`** — rezervāciju pārvaldība  
+   - `id`, `client_id`, `product_id`, `start_date`, `end_date`, `status`
+
+4. **(Papildu)** `reviews`, `contact_messages` vai citas palīgtabulas var tikt pievienotas vēlāk.
+
+---
+
+## Galvenās izmaiņas salīdzinājumā ar versiju 1.0
+- Visi pakalpojumi apvienoti vienā tabulā **`products`** (vienota struktūra)
+- Pievienota **`clients`** tabula klientu pārvaldībai
+- Pievienota **`bookings`** tabula rezervāciju glabāšanai
+- Uzlabota relāciju struktūra (izmantojot ārējās atslēgas)
+- Vieglāka paplašināšana un datu pārvaldība nākotnē
+
+---
+
+## Versiju vēsture
+
+| Versija | Apraksts | Datums |
+|----------|-----------|--------|
+| 1.0 | Sākotnējā tabulu versija (atsevišķi produkti) | 2025-10-27 |
+| 2.0 | Apvienota un uzlabota datubāze, pievienoti klienti un rezervācijas | 2025-10-28 |
+
+---
+
+**Autors:** Adrians Vincets Šuķevics 
+**Versija:** 2.0  
+**Datubāze:** MySQL  
+**Projekts:** Ievziedi Kempings
