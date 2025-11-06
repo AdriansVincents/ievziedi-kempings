@@ -1,56 +1,66 @@
-# Ievziedi Kempinga Datu Bāze — Versija 2.0
+# Ievziedi Kempinga Datu Bāze — Versija 3.0
 
-Šī ir **uzlabotā datubāzes versija** kempingam *“Ievziedi”*, kas paredzēta reālai tīmekļa vietnes lietošanai.
+Šī ir jaunākā, uzlabotā datubāzes versija projektam **“Ievziedi Kempings”**, kas izstrādāta, lai atvieglotu produktu, rezervāciju un maksājumu pārvaldību kempinga mājaslapā.
 
 ---
 
 ## Apraksts
 
-Versija 2.0 pārveido sākotnējo struktūru, apvienojot pakalpojumus vienotā sistēmā, kas ir **elastīgāka un vieglāk uzturama**.  
-Tagad datubāze ir pielāgota, lai pārvaldītu gan klientus, gan rezervācijas, gan visus pieejamos kempinga pakalpojumus.
+Versija **3.0** būtiski uzlabo iepriekšējo datu modeli, pievienojot vairāk reālas rezervācijas funkcionalitātes un elastību:
+
+- Statusi tagad tiek glabāti atsevišķā tabulā `statuses`;
+- Izveidota `routes` tabula laivu un SUP dēļu maršrutu un cenu pārvaldībai;
+- Produktu un rezervāciju sasaistīšana caur `bookings_products` tabulu (daudz–daudz relācija);
+- Pievienota `prepayments` tabula priekšapmaksas pārvaldībai;
+- Papildināta produktu struktūra ar `available_units`, kas ļauj uzskaitīt pieejamos eksemplārus (piemēram, 2 mājiņas, 5 SUP dēļi utt.);
+- Pievienota `images` mape ar visiem attēliem.
 
 ---
 
-## Datubāzes struktūra
+## Datu bāzes struktūra
 
-### **Galvenās tabulas:**
-1. **`products`** — satur visus kempinga pakalpojumus (mājiņas, pirts, kubli, laivas, SUP dēļi, velosipēdi u.c.)
-   - `id` — unikāls produkta identifikators  
-   - `name` — produkta nosaukums  
-   - `type` — kategorija (piem., “house”, “sauna”, “boat”, “bike” u.c.)  
-   - `price` — cena par vienību vai dienu  
-   - `description` — īss apraksts  
-   - `image` — attēla ceļš vai URL
+### Galvenās tabulas
 
-2. **`clients`** — glabā klientu informāciju  
-   - `id`, `name`, `email`, `phone`, `created_at`
-
-3. **`bookings`** — rezervāciju pārvaldība  
-   - `id`, `client_id`, `product_id`, `start_date`, `end_date`, `status`
-
-4. **(Papildu)** `reviews`, `contact_messages` vai citas palīgtabulas var tikt pievienotas vēlāk.
+| Tabula | Apraksts |
+|--------|-----------|
+| **products** | Visi kempinga pakalpojumi (mājiņas, pirts, kubuls, laivas, SUP dēļi, velosipēdi utt.) |
+| **routes** | Maršruti laivām un SUP dēļiem ar attālumiem, dienām un cenām |
+| **clients** | Klientu dati (vārds, e-pasts, telefons, statuss) |
+| **bookings** | Rezervāciju pamatinformācija (klients, datumi, statuss) |
+| **bookings_products** | Saite starp rezervācijām un izvēlētajiem produktiem |
+| **prepayments** | Priekšapmaksas informācija par rezervācijām |
+| **statuses** | Visu iespējamo statusu saraksts (piemēram: Pieejams, Rezervēts, Aizņemts, Apmaksāts) |
 
 ---
 
-## Galvenās izmaiņas salīdzinājumā ar versiju 1.0
-- Visi pakalpojumi apvienoti vienā tabulā **`products`** (vienota struktūra)
-- Pievienota **`clients`** tabula klientu pārvaldībai
-- Pievienota **`bookings`** tabula rezervāciju glabāšanai
-- Uzlabota relāciju struktūra (izmantojot ārējās atslēgas)
-- Vieglāka paplašināšana un datu pārvaldība nākotnē
+## Galvenās izmaiņas salīdzinājumā ar versiju 2.0
+
+| Izmaiņa | Apraksts |
+|----------|-----------|
+| **Statusi** pārvietoti uz atsevišķu tabulu `statuses` | Nodrošina elastīgāku statusu pārvaldību |
+| **Maršruti (`routes`)** | Cenas un ilgumi vairs nav tieši produktos |
+| **`bookings_products`** | Tagad iespējams rezervēt vairākus produktus vienā pasūtījumā |
+| **`prepayments`** | Priekšapmaksas apstrāde |
+| **`available_units`** | Norāda, cik vienību no konkrētā produkta ir pieejams |
+| **Attēlu mape** | Projekts satur `images/` direktoriju ar visiem produktu attēliem |
 
 ---
 
-## Versiju vēsture
+## Datubāzes fails
 
-| Versija | Apraksts | Datums |
-|----------|-----------|--------|
-| 1.0 | Sākotnējā tabulu versija (atsevišķi produkti) | 2025-10-27 |
-| 2.0 | Apvienota un uzlabota datubāze, pievienoti klienti un rezervācijas | 2025-10-28 |
+Faila atrašanās vieta:
+database/ievziedi_db.sql
 
 ---
 
-**Autors:** Adrians Vincets Šuķevics 
-**Versija:** 2.0  
-**Datubāze:** MySQL  
-**Projekts:** Ievziedi Kempings
+## Attēli
+
+Visi produktu attēli tiek glabāti mapē:
+images/
+
+---
+
+Datubāze: MySQL
+Autors: Adrians Vincets Šuķevics
+Versija: 3.0
+Projekts: Ievziedi Kempings
