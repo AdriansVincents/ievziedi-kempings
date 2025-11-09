@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2025 at 12:09 PM
+-- Generation Time: Nov 09, 2025 at 10:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,19 +60,23 @@ CREATE TABLE `booking_products` (
 
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
+  `name` varchar(50) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`) VALUES
-(1, 'Mājiņas'),
-(2, 'Pirts un kubuls'),
-(3, 'SUP dēļi'),
-(4, 'Laivas'),
-(5, 'Velosipēdi');
+INSERT INTO `categories` (`id`, `name`, `parent_id`) VALUES
+(1, 'Atpūta uz ūdens', NULL),
+(2, 'Atpūta uz sauszemes', NULL),
+(3, 'SUP dēļi', 1),
+(4, 'Laivas', 1),
+(5, 'Mājiņas', 2),
+(6, 'Pirts', 2),
+(7, 'Kubuls', 2),
+(8, 'Velosipēdi', 2);
 
 -- --------------------------------------------------------
 
@@ -125,12 +129,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category_id`, `description`, `price_per_day`, `image`, `available_units`, `status_id`) VALUES
-(1, 'Mājiņa \"Ievziedi\"', 1, 'Ģimenes kempinga mājiņa ar terasi. Mājīga pusotra stāva kempinga mājiņa, kas piemērota ģimenei ar diviem pieaugušajiem un diviem bērniem.', 150.00, 'images/Majinas/maja1.jpg', 2, 1),
-(2, 'Pirts', 2, 'Koka pirts pie ezera, pieejama visu gadu.', 100.00, '', 1, 1),
-(3, 'Kubuls', 2, 'Āra kubuls ar burbuļiem, iespējams izmantot kopā ar pirti.', 80.00, '', 1, 1),
+(1, 'Mājiņa \"Ievziedi\"', 5, 'Ģimenes kempinga mājiņa ar terasi. Mājīga pusotra stāva kempinga mājiņa, kas piemērota ģimenei ar diviem pieaugušajiem un diviem bērniem.', 150.00, 'images/Majinas/maja1.jpg', 2, 1),
+(2, 'Pirts', 6, 'Koka pirts pie ezera, pieejama visu gadu.', 100.00, '', 1, 1),
+(3, 'Kubuls', 7, 'Āra kubuls ar burbuļiem, iespējams izmantot kopā ar pirti.', 80.00, '', 1, 1),
 (4, 'SUP dēlis', 3, 'Pieejami 3 dažādi SUP dēļi. Cena atkarīga no izvēlētā maršruta.', NULL, 'images/Sup/supi1.jpg', 10, 1),
 (5, 'Laiva', 4, '3-vietīga laiva ar airiem. Cena atkarīga no maršruta.', NULL, 'images/laivas/laiva1.png', 10, 1),
-(6, 'Velosipēds', 5, 'Dažādi velosipēdi gan pieaugušajiem, gan bērniem, kā arī bērnu sēdeklīši, un aizsargķiveres drošam un ērtam braucienam.', 20.00, '', 6, 1);
+(6, 'Velosipēds', 8, 'Dažādi velosipēdi gan pieaugušajiem, gan bērniem, kā arī bērnu sēdeklīši, un aizsargķiveres drošam un ērtam braucienam.', 20.00, '', 6, 1);
 
 -- --------------------------------------------------------
 
@@ -261,7 +265,8 @@ ALTER TABLE `booking_products`
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parent_id` (`parent_id`);
 
 --
 -- Indexes for table `clients`
@@ -333,7 +338,7 @@ ALTER TABLE `booking_products`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `clients`
@@ -398,6 +403,12 @@ ALTER TABLE `booking_products`
   ADD CONSTRAINT `booking_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
+-- Constraints for table `categories`
+--
+ALTER TABLE `categories`
+  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `clients`
 --
 ALTER TABLE `clients`
@@ -414,8 +425,8 @@ ALTER TABLE `prepayments`
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
-  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`);
+  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`),
+  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
 
 --
 -- Constraints for table `product_images`
