@@ -11,7 +11,3 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Savienojuma kļūda: " . $conn->connect_error);
 }   
-
-// Uzliek UTF-8 kodējumu
-$conn->set_charset("utf8mb4");
-?>

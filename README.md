@@ -1,18 +1,39 @@
-## Ievziedi Kempinga Datu Bāze — Versija 3.1
+# Ievziedi Kempinga Mājaslapa — Versija 4.0
 
-Šī versija pievieno hierarhiskas kategorijas, lai produktus iedalītu galvenajās sadaļās:
-- **Atpūta uz ūdens**
-- **Atpūta uz sauszemes**
+Šajā versijā ieviestas būtiskas izmaiņas un uzlabojumi gan datu bāzē, gan failu struktūrā, gan pašā mājaslapas funkcionalitātē. Projekts tagad ir sadalīts loģiskos moduļos ar `header.php`, `footer.php`, `includes`, `css` mapēm, dinamisku produkciju, maršrutu sistēmu un jaunu UI.
 
-Tagad produktus var grupēt pēc kategorijas un apakškategorijas, kas ļaus mājas lapā tos attēlot līdzīgi kā sadaļās (piemēram, “SUP dēļi”, “Laivas”, “Mājiņas”, “Pirts” utt.).
+---
 
-### Galvenās izmaiņas no versijas 3.0
-- Pārveidota `categories` tabula, pievienots `parent_id`
-- Iespēja veidot galvenās un apakškategorijas (hierarhiju)
-- Sagatavota struktūra sadaļām “Atpūta uz ūdens” un “Atpūta uz sauszemes”
-- Datu bāze eksportēta kā `ievziedi_db_v3.sql`
+## 🚀 **Kas jauns versijā 4.0**
 
-**Autors:** Adrians Vincets Šuķevics  
-**Datubāze:** MySQL  
-**Versija:** 3.1
-**Datums:** 2025-11-06
+### **1. Pilnībā pārtaisīta mājaslapas struktūra**
+- Pievienoti:
+  - `/includes/header.php`
+  - `/includes/footer.php`
+- Sakārtota projektu struktūra, lai PHP includes darbotos droši un vienoti.
+
+### **2. Dinamiska produktu sistēma**
+Produkti tiek ielādēti no datu bāzes:
+- Produktu saraksts
+- Individuāla produktu lapa (`product_detail.php`)
+- Produkta apraksts, cena, attēli, galerija
+
+### **3. Maršrutu sistēma**
+Produkta lapā tiek rādīti ar produktu saistītie maršruti:
+- attālums,
+- ilgums,
+- cena,
+- sākuma/beigu punkti.
+
+### **4. Jauns dizains un UI**
+- Jauns produkta kartiņu stils
+- Viegls, gaiši zaļš hover efekts
+- Uzlabotas pogas, dropdown menu un galerijas stili
+
+---
+
+Autors: Adrians Vincets Šuķevics
+Datubāze: MySQL
+Versija: 4.0
+Datums: 2025-11-06
+

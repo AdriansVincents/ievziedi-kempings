@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2025 at 10:42 PM
+-- Generation Time: Nov 18, 2025 at 10:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -117,10 +117,14 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `description` text NOT NULL,
+  `description` longtext DEFAULT NULL,
+  `short_description` text DEFAULT NULL,
   `price_per_day` decimal(10,2) DEFAULT NULL,
-  `image` varchar(255) NOT NULL,
+  `main_image` varchar(255) DEFAULT NULL,
+  `gallery_images` text DEFAULT NULL,
   `available_units` int(11) NOT NULL DEFAULT 1,
+  `capacity` varchar(100) DEFAULT NULL,
+  `facilities` text DEFAULT NULL,
   `status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -128,32 +132,13 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `category_id`, `description`, `price_per_day`, `image`, `available_units`, `status_id`) VALUES
-(1, 'Mājiņa \"Ievziedi\"', 5, 'Ģimenes kempinga mājiņa ar terasi. Mājīga pusotra stāva kempinga mājiņa, kas piemērota ģimenei ar diviem pieaugušajiem un diviem bērniem.', 150.00, 'images/Majinas/maja1.jpg', 2, 1),
-(2, 'Pirts', 6, 'Koka pirts pie ezera, pieejama visu gadu.', 100.00, '', 1, 1),
-(3, 'Kubuls', 7, 'Āra kubuls ar burbuļiem, iespējams izmantot kopā ar pirti.', 80.00, '', 1, 1),
-(4, 'SUP dēlis', 3, 'Pieejami 3 dažādi SUP dēļi. Cena atkarīga no izvēlētā maršruta.', NULL, 'images/Sup/supi1.jpg', 10, 1),
-(5, 'Laiva', 4, '3-vietīga laiva ar airiem. Cena atkarīga no maršruta.', NULL, 'images/laivas/laiva1.png', 10, 1),
-(6, 'Velosipēds', 8, 'Dažādi velosipēdi gan pieaugušajiem, gan bērniem, kā arī bērnu sēdeklīši, un aizsargķiveres drošam un ērtam braucienam.', 20.00, '', 6, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_images`
---
-
-CREATE TABLE `product_images` (
-  `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `image_path` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `product_images`
---
-
-INSERT INTO `product_images` (`id`, `product_id`, `image_path`) VALUES
-(1, 5, 'image/laivas/laiva2.png');
+INSERT INTO `products` (`id`, `name`, `category_id`, `description`, `short_description`, `price_per_day`, `main_image`, `gallery_images`, `available_units`, `capacity`, `facilities`, `status_id`) VALUES
+(1, 'Mājiņa \"Ievziedi\"', 5, 'Mājīga pusotra stāva kempinga mājiņa, kas piemērota ģimenei ar diviem pieaugušajiem un diviem bērniem. Papildus iespējama nakšņošana uz saliekamās gultas.\r\n\r\nPirmajā stāvā atrodas plaša atpūtas telpa, pilnībā aprīkota virtuve ar ledusskapi, plītiņu un traukiem ēdiena pagatavošanai, kā arī WC. Otrajā stāvā ierīkota ērtā atpūtas zona ar guļvietām, kas piemērota mierīgam naktsmieram vai nesteidzīgai atpūtai pēc dienas aktivitātēm.\r\n\r\nPie mājiņas ir terase ar saulessargiem un atpūtas krēsliem, ideāla vieta, kur baudīt rīta kafiju, lasīt grāmatu vai vienkārši relaksēties dabas tuvumā.\r\n\r\nMājiņa ir piemērota gan īslaicīgai atpūtai, gan garākām brīvdienām dabas ielokā – viss, kas nepieciešams ērtam un patīkamam ģimenes atpūtai.', 'Ģimenes kempinga mājiņa ar terasi. Mājīga pusotra stāva kempinga mājiņa, kas piemērota ģimenei ar diviem pieaugušajiem un diviem bērniem.', 150.00, 'images/Majinas/maja1.jpg', 'images/Majinas/maja2.jpg', 2, '4 personas', 'Virtuve, duša, tualete, terase, ledusskapis, elektrība.', 1),
+(2, 'Pirts', 6, 'Mūsu koka pirts piedāvā autentisku un relaksējošu pieredzi dabas ielokā. \r\nTā atrodas pie ezera, tikai dažu soļu attālumā no galvenās kempinga zonas, \r\nun ir ideāla vieta, lai atbrīvotos no ikdienas spriedzes un baudītu mieru.\r\n\r\nPirts ir apsildāma ar tradicionālu malkas krāsni, kas rada patīkamu aromātu un siltumu. \r\nIekšpusē pieejama plaša atpūtas telpa, ģērbtuve un duša. \r\nĀrpusē – terase ar skatu uz ezeru, kur pēc pirts var veldzēties vai iemalkot tēju.\r\n\r\nPirts ir piemērota gan nelielām kompānijām, gan romantiskam vakaram divatā. \r\nPieejama visu gadu, arī ziemā, un pēc vēlēšanās iespējams pasūtīt arī kubulu vai nakšņošanu kempinga mājiņā.', 'Koka pirts ar skatu uz ezeru, pieejama visu gadu.', 100.00, 'images/pirts/pirts1.jpg', 'images/pirts/pirts2.jpg', 1, '6 personas', 'Pirts krāsns, atpūtas telpa, duša, tualete, terase.', 2),
+(3, 'Kubls', 7, 'Kubuls ir lieliska iespēja atslābināties un izbaudīt siltu ūdeni brīvā dabā. \r\nTas atrodas gleznainā vietā pie Gaujas, kur apkārt valda miers un dabas skaņas. \r\nKubuls ir piemērots gan romantiskam vakaram divatā, gan jautram draugu vakaram. \r\n\r\nŪdens tiek uzsildīts ar malkas krāsni, kas rada patīkamu siltumu arī vēsākos vakaros. \r\nKubuls aprīkots ar burbuļsistēmu un LED apgaismojumu, lai radītu relaksējošu atmosfēru. \r\nLietošana iespējama visu gadu — arī ziemā, kad īpaši baudāms ir kontrasts starp aukstu gaisu un siltu ūdeni.\r\n', 'Āra kubuls ar burbuļiem, iespējams izmantot kopā ar pirti.', 80.00, 'images/kubls/kubls1.jpg', NULL, 1, '4–6 personas', 'Burbuļsistēma, LED apgaismojums, karsts ūdens.', 2),
+(4, 'SUP dēlis', 3, 'SUP dēļi ir ideāla izvēle tiem, kas vēlas apvienot mierīgu atpūtu ar vieglu fizisku aktivitāti. Nesteidzīgi slīdot pa Gaujas virsmu, iespējams baudīt klusumu, dabas skaņas un gleznainos krastus no pavisam cita skatpunkta. Lieliska nodarbe gan iesācējiem, gan pieredzējušiem supotājiem!\r\n\r\n', 'Pieejami 10 SUP dēļi. Cena atkarīga no izvēlētā maršruta.', NULL, 'images/Sup/supi1.jpg', NULL, 10, '1 persona', 'Airis, drošības veste.', 1),
+(5, 'Laiva', 4, 'Ērtas un stabilas trīsvietīgās kanoe laivas ir lieliski piemērotas mierīgai atpūtai vai vairāku dienu braucieniem pa Gauju. Tās nodrošina pietiekami daudz vietas diviem pieaugušajiem un bērnam vai draugu kompānijai, kā arī vietu somām.\r\n\r\nVieglas un vadāmas, šīs laivas ļauj nesteidzīgi izbaudīt Gaujas Nacionālā parka skaistumu, klausoties upes čalās, putnu dziesmās un sajūtot dabas mieru visapkārt.', '3-vietīga laiva ar airiem. Cena atkarīga no maršruta.', NULL, 'images/laivas/laiva1.png', 'images/laivas/laiva2.png', 10, '3 personas', 'Airi, vestes.', 1),
+(6, 'Velosipēds', 8, 'Izbaudi Siguldas novada skaistumu un tuvējās dabas takas ar mūsu velosipēdu nomu! Piedāvājumā dažādi velosipēdi gan pieaugušajiem, gan bērniem, kā arī bērnu sēdeklīši un aizsargķiveres drošam un ērtam braucienam.\r\n\r\nAr velosipēdu iespējams doties īsos izbraucienos pa apkārtni vai garākos maršrutos gar Gauju, uz Turaidas pili, Siguldas panorāmas skatu vietām un citām iecienītām vietām.\r\n\r\nVelobrauciens ir lieliska iespēja apvienot aktīvu atpūtu ar dabas baudīšanu, atklājot apkārtni savā tempā. ', 'Dažādi velosipēdi gan pieaugušajiem, gan bērniem, kā arī bērnu sēdeklīši, un aizsargķiveres drošam un ērtam braucienam.', 20.00, 'images/riteni/ritenis2.jpg', 'images/riteni/ritenis1.jpg,images/riteni/ritenis3.jpg', 6, '1 persona', 'Ķivere, bērnu sēdeklis pēc pieprasījuma.', 2);
 
 -- --------------------------------------------------------
 
@@ -292,13 +277,6 @@ ALTER TABLE `products`
   ADD KEY `status_id` (`status_id`);
 
 --
--- Indexes for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
-
---
 -- Indexes for table `routes`
 --
 ALTER TABLE `routes`
@@ -357,12 +335,6 @@ ALTER TABLE `prepayments`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `product_images`
---
-ALTER TABLE `product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `routes`
@@ -427,12 +399,6 @@ ALTER TABLE `prepayments`
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`),
   ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
-
---
--- Constraints for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `routes`
