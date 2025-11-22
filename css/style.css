@@ -1,11 +1,11 @@
-/* ======== VISPĀRĒJAIS LAPAS STILS ======== */
+/* VISPĀRĒJAIS LAPAS STILS */
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
   color: #333;
 }
 
-/* ======== HEADER / NAV ======== */
+/* HEADER / NAV */
 .navbar {
   display: flex;
   align-items: center;
@@ -18,18 +18,18 @@ body {
   z-index: 1000;
 }
 
-/* ======== LOGO ======== */
+/* LOGO */
 .logo img {
   height: 125px; /* ← maini, ja gribi lielāku */
   width: auto;
   display: block;
 }
 
-/* ======== GALVENĀ IZVĒLNE ======== */
+/* GALVENĀ IZVĒLNE */
 .main-menu {
   flex: 1;
   display: flex;
-  justify-content: center; /* centrē izvēlni */
+  justify-content: center;
 }
 
 .main-menu ul {
@@ -55,7 +55,7 @@ body {
   color: #4CAF50;
 }
 
-/* ======= DROPDOWN — galīgā versija ======= */
+/* DROPDOWN — galīgā versija */
 .dropdown {
   position: relative;
 }
@@ -118,7 +118,7 @@ body {
   color: #4CAF50;
 }
 
-/* ======== “PAR MUMS” SEKCIJA ======== */
+/* “PAR MUMS” SEKCIJA */
 .about {
   display: flex;
   align-items: center;
@@ -151,7 +151,7 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* ======== PRODUKTU SEKCIJA (JAUNA VERSIJA) ======== */
+/* PRODUKTU SEKCIJA */
 .products-preview {
   padding: 60px 10%;
   background: #fff;
@@ -217,9 +217,6 @@ body {
   border-color: #7da893;
   transform: translateY(-2px);
 }
-
-
-
 
 .btn {
   display: inline-block;
