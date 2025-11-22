@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2025 at 10:44 PM
+-- Generation Time: Nov 22, 2025 at 06:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,10 +31,15 @@ CREATE TABLE `bookings` (
   `id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `route_id` int(11) NOT NULL,
+  `route_id` int(11) DEFAULT NULL,
   `start_datetime` datetime NOT NULL,
   `end_datetime` datetime NOT NULL,
+  `cancelled_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `total_price` decimal(10,2) NOT NULL,
+  `prepayment_amount` decimal(10,2) DEFAULT NULL,
+  `remaining_amount` decimal(10,2) DEFAULT NULL,
   `status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -49,6 +54,8 @@ CREATE TABLE `booking_products` (
   `booking_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(1) NOT NULL,
+  `product_price_at_booking` decimal(10,2) NOT NULL,
+  `product_name_snapshot` varchar(255) DEFAULT NULL,
   `subtotal` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -103,6 +110,7 @@ CREATE TABLE `prepayments` (
   `id` int(11) NOT NULL,
   `booking_id` int(11) NOT NULL,
   `amount` decimal(10,2) NOT NULL,
+  `transaction_id` varchar(255) DEFAULT NULL,
   `payment_date` datetime NOT NULL DEFAULT current_timestamp(),
   `status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -205,24 +213,47 @@ INSERT INTO `season_prices` (`id`, `product_id`, `start_date`, `end_date`, `pric
 CREATE TABLE `statuses` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `description` text NOT NULL
+  `description` text NOT NULL,
+  `status_type` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `statuses`
 --
 
-INSERT INTO `statuses` (`id`, `name`, `description`) VALUES
-(1, 'pieejams', 'Produkts vai statuss ir pieejams'),
-(2, 'nav pieejams', 'Produkts šobrīd nav pieejams'),
-(3, 'apkopē', 'Produkts ir remontā vai apkopē'),
-(4, 'rezervēts', 'Rezervācija veikta'),
-(5, 'atcelts', 'Rezervācija atcelta'),
-(6, 'pabeigts', 'Rezervācija pabeigta'),
-(7, 'aktīvs', 'Klienta konts vai statuss ir aktīvs'),
-(8, 'neaktīvs', 'Klienta konts nav aktīvs'),
-(9, 'gaida apstiprinājumu', 'Priekšapmaksa gaida apstiprinājumu'),
-(10, 'apmaksāts', 'Priekšapmaksa veikta un apstiprināta');
+INSERT INTO `statuses` (`id`, `name`, `description`, `status_type`) VALUES
+(1, 'pieejams', 'Produkts vai statuss ir pieejams', 2),
+(2, 'nav pieejams', 'Produkts šobrīd nav pieejams', 2),
+(3, 'apkopē', 'Produkts ir remontā vai apkopē', 2),
+(4, 'rezervēts', 'Rezervācija veikta', 1),
+(5, 'atcelts', 'Rezervācija atcelta', 1),
+(6, 'pabeigts', 'Rezervācija pabeigta', 1),
+(7, 'aktīvs', 'Klienta konts vai statuss ir aktīvs', 4),
+(8, 'neaktīvs', 'Klienta konts nav aktīvs', 4),
+(9, 'gaida apstiprinājumu', 'Priekšapmaksa gaida apstiprinājumu', 3),
+(10, 'apmaksāts', 'Priekšapmaksa veikta un apstiprināta', 3),
+(11, 'gaida', 'Klients pievienots gaidīšanas sarakstam', 5),
+(12, 'paziņots', 'Klientam ir nosūtīts paziņojums, ka produkts ir pieejams', 5),
+(13, 'atteicies', 'Klients atteicies no gaidīšanas', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `waitlist`
+--
+
+CREATE TABLE `waitlist` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `desired_start` datetime DEFAULT NULL,
+  `desired_end` datetime DEFAULT NULL,
+  `notified` tinyint(1) DEFAULT 0,
+  `status_id` int(11) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -244,7 +275,8 @@ ALTER TABLE `bookings`
 ALTER TABLE `booking_products`
   ADD PRIMARY KEY (`id`),
   ADD KEY `booking_id` (`booking_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `booking_id_2` (`booking_id`,`product_id`);
 
 --
 -- Indexes for table `categories`
@@ -295,6 +327,15 @@ ALTER TABLE `season_prices`
 --
 ALTER TABLE `statuses`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `waitlist`
+--
+ALTER TABLE `waitlist`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client_id` (`client_id`),
+  ADD KEY `product_id` (`product_id`,`email`),
+  ADD KEY `status_id` (`status_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -352,7 +393,13 @@ ALTER TABLE `season_prices`
 -- AUTO_INCREMENT for table `statuses`
 --
 ALTER TABLE `statuses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `waitlist`
+--
+ALTER TABLE `waitlist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -362,17 +409,17 @@ ALTER TABLE `statuses`
 -- Constraints for table `bookings`
 --
 ALTER TABLE `bookings`
-  ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`),
-  ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `bookings_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`),
-  ADD CONSTRAINT `fk_bookings_routes` FOREIGN KEY (`route_id`) REFERENCES `routes` (`id`);
+  ADD CONSTRAINT `fk_bookings_routes` FOREIGN KEY (`route_id`) REFERENCES `routes` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `booking_products`
 --
 ALTER TABLE `booking_products`
-  ADD CONSTRAINT `booking_products_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`),
-  ADD CONSTRAINT `booking_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+  ADD CONSTRAINT `booking_products_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `booking_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `categories`
@@ -390,7 +437,7 @@ ALTER TABLE `clients`
 -- Constraints for table `prepayments`
 --
 ALTER TABLE `prepayments`
-  ADD CONSTRAINT `prepayments_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`),
+  ADD CONSTRAINT `prepayments_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `prepayments_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`);
 
 --
@@ -411,6 +458,14 @@ ALTER TABLE `routes`
 --
 ALTER TABLE `season_prices`
   ADD CONSTRAINT `season_prices_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `waitlist`
+--
+ALTER TABLE `waitlist`
+  ADD CONSTRAINT `waitlist_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `waitlist_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `waitlist_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

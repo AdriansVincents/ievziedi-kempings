@@ -1,39 +1,60 @@
-# Ievziedi Kempinga Mājaslapa — Versija 4.0
+# Ievziedi Kempinga Mājaslapa — Versija 4.1
 
-Šajā versijā ieviestas būtiskas izmaiņas un uzlabojumi gan datu bāzē, gan failu struktūrā, gan pašā mājaslapas funkcionalitātē. Projekts tagad ir sadalīts loģiskos moduļos ar `header.php`, `footer.php`, `includes`, `css` mapēm, dinamisku produkciju, maršrutu sistēmu un jaunu UI.
-
----
-
-## 🚀 **Kas jauns versijā 4.0**
-
-### **1. Pilnībā pārtaisīta mājaslapas struktūra**
-- Pievienoti:
-  - `/includes/header.php`
-  - `/includes/footer.php`
-- Sakārtota projektu struktūra, lai PHP includes darbotos droši un vienoti.
-
-### **2. Dinamiska produktu sistēma**
-Produkti tiek ielādēti no datu bāzes:
-- Produktu saraksts
-- Individuāla produktu lapa (`product_detail.php`)
-- Produkta apraksts, cena, attēli, galerija
-
-### **3. Maršrutu sistēma**
-Produkta lapā tiek rādīti ar produktu saistītie maršruti:
-- attālums,
-- ilgums,
-- cena,
-- sākuma/beigu punkti.
-
-### **4. Jauns dizains un UI**
-- Jauns produkta kartiņu stils
-- Viegls, gaiši zaļš hover efekts
-- Uzlabotas pogas, dropdown menu un galerijas stili
+Šajā versijā veikti būtiski datu bāzes un sistēmas uzlabojumi, kas sagatavo projektu nākamajam lielajam solim — pilnai rezervēšanas sistēmai ar pieejamības pārbaudi, priekšapmaksu, gaidīšanas sarakstu un produktu statusiem.
 
 ---
 
-Autors: Adrians Vincets Šuķevics
-Datubāze: MySQL
-Versija: 4.0
-Datums: 2025-11-06
+## **Kas jauns versijā 4.1**
 
+### 1. Uzlabots datu bāzes modelis
+Pievienoti jauni lauki un uzlabota sistēma rezervācijām, produktiem, maksājumiem un gaidīšanas sarakstam.
+
+### Uzlabojumi `bookings` tabulā:
+- `prepayment_amount`
+- `remaining_amount`
+- `cancelled_at`
+- `created_at`, `updated_at`
+- `route_id` padarīts par NULL (lai atbalstītu produktus bez maršrutiem)
+
+### Uzlabojumi `booking_products` tabulā:
+- `product_price_at_booking`
+- `product_name_snapshot`
+
+### Uzlabojumi `prepayment` tabulā:
+- `transaction_id` lauks maksājumu identifikācijai
+
+### Uzlabota `statuses` tabula:
+Ievesta **status_type** sistēma:
+- 1 – bookings
+- 2 – products
+- 3 – payments
+- 4 – clients
+- 5 – waitlist
+
+Pievienoti arī **jauni statusi** gaidīšanas sarakstam.
+
+### Jaunumi `waitlist` tabulā:
+- `status_id`
+- `notes`
+- `email` un `product_id` indeksi
+
+---
+
+## **2. Fundamentāls pamats rezervēšanas sistēmai**
+Versija 4.1 sagatavo mājaslapu nākamajiem soļiem:
+
+- Produktu pieejamības pārbaude pa datumiem
+- Automātiska kopējās cenas aprēķināšana
+- Priekšapmaksas (50%) aprēķins un sūtīšana klientam
+- Atlaižu vai cita veida papildus maksājumu atbalsts
+- Gaidīšanas saraksta sistēma
+- Paziņojumu nosūtīšana, kad produkts atkal ir pieejams
+
+---
+
+## Autors
+**Adrians Vincents Šuķevics**
+
+**Datubāze:** MySQL  
+**Versija:** 4.1  
+**Datums:** 2025-11-22
