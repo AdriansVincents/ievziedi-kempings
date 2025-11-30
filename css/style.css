@@ -20,7 +20,7 @@ body {
 
 /* LOGO */
 .logo img {
-  height: 125px; /* ← maini, ja gribi lielāku */
+  height: 125px;
   width: auto;
   display: block;
 }
@@ -55,12 +55,11 @@ body {
   color: #4CAF50;
 }
 
-/* DROPDOWN — galīgā versija */
+/* DROPDOWN */
 .dropdown {
   position: relative;
 }
 
-/* Dropdown sākumā ir paslēpts */
 .dropdown-menu {
   display: none !important;
   position: absolute;
@@ -74,12 +73,10 @@ body {
   z-index: 1000;
 }
 
-/* Parādās tikai, kad ar peli uzbrauc uz “Piedāvājumi” */
 .dropdown:hover > .dropdown-menu {
   display: block !important;
 }
 
-/* Iekšējais saturs */
 .dropdown-menu li {
   padding: 6px 10px;
   white-space: nowrap;
@@ -89,7 +86,6 @@ body {
   background: #f5f5f5;
 }
 
-/* Kategorijas stils */
 .category-group {
   margin-bottom: 10px;
 }
@@ -102,7 +98,6 @@ body {
   margin-bottom: 5px;
 }
 
-/* Apakškategoriju stils */
 .sub-menu {
   list-style: none;
   padding-left: 15px;
@@ -118,7 +113,7 @@ body {
   color: #4CAF50;
 }
 
-/* “PAR MUMS” SEKCIJA */
+/* PAR MUMS SEKCIJA */
 .about {
   display: flex;
   align-items: center;
@@ -148,7 +143,7 @@ body {
 .about-image img {
   width: 100%;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 /* PRODUKTU SEKCIJA */
@@ -163,14 +158,12 @@ body {
   margin-bottom: 40px;
 }
 
-/* 3 kolonnu tīrais layout */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 60px;
 }
 
-/* Minimālistisks stils — bez kartiņu rāmjiem, ēnām */
 .product-card {
   text-align: left;
 }
@@ -183,14 +176,12 @@ body {
   margin-bottom: 12px;
 }
 
-/* Produkta nosaukums */
 .product-card h3 {
   font-size: 20px;
   margin: 5px 0 8px;
   color: #222;
 }
 
-/* īsais apraksts */
 .product-card p {
   font-size: 15px;
   line-height: 1.6;
@@ -198,7 +189,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* Uzzināt vairāk */
 .product-card .btn {
   display: inline-block;
   font-size: 15px;
@@ -240,6 +230,7 @@ body {
 .see-all:hover {
   background: #000;
 }
+
 .product-hero {
   background-size: cover;
   background-position: center;
@@ -296,6 +287,7 @@ body {
   background-color: #2e6045;
 }
 
+/* ROUTES */
 .route-section {
   margin-top: 40px;
   text-align: center;
@@ -353,5 +345,157 @@ body {
 .route-info li {
   margin: 5px 0;
   color: #555;
+}
+
+/* KONTEINERS */
+
+.booking-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+    font-family: "Inter", sans-serif;
+}
+
+.booking-container h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+h3 {
+    margin-top: 35px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+}
+
+/* INPUTI */
+
+label {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 4px;
+    display: block;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color: #4a8eff;
+    box-shadow: 0 0 3px rgba(74,142,255,0.4);
+}
+
+/* PRODUKTU BLOKI */
+
+.product-item {
+    background: #f9fafb;
+    padding: 14px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.product-item label {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* DAUDZUMA IZVĒLNE */
+
+.qty-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    background: #e5e7eb;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.qty-btn:hover {
+    background: #d1d5db;
+}
+
+.qty-number {
+    width: 40px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    background: #fff;
+}
+
+/* MARŠRUTU IZVĒLNE */
+
+.route-box {
+    margin-top: 14px;
+    padding: 12px;
+    background: #eef4ff;
+    border-radius: 10px;
+    border: 1px solid #d4e2ff;
+}
+
+/* SUMMAS BLOKS */
+
+.price-summary {
+    margin-top: 25px;
+    padding: 18px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+}
+
+.price-summary div {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.price-summary span {
+    float: right;
+    font-weight: 600;
+}
+
+/*POGA*/
+
+.booking-btn {
+    width: 100%;
+    padding: 14px;
+    background: #2563eb;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.booking-btn:hover {
+    background: #1d4ed8;
 }
 

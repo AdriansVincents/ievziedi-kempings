@@ -1,60 +1,70 @@
-# Ievziedi Kempinga Mājaslapa — Versija 4.1
+# Ievziedi Kempinga Mājaslapa — Versija 5.0
 
-Šajā versijā veikti būtiski datu bāzes un sistēmas uzlabojumi, kas sagatavo projektu nākamajam lielajam solim — pilnai rezervēšanas sistēmai ar pieejamības pārbaudi, priekšapmaksu, gaidīšanas sarakstu un produktu statusiem.
-
----
-
-## **Kas jauns versijā 4.1**
-
-### 1. Uzlabots datu bāzes modelis
-Pievienoti jauni lauki un uzlabota sistēma rezervācijām, produktiem, maksājumiem un gaidīšanas sarakstam.
-
-### Uzlabojumi `bookings` tabulā:
-- `prepayment_amount`
-- `remaining_amount`
-- `cancelled_at`
-- `created_at`, `updated_at`
-- `route_id` padarīts par NULL (lai atbalstītu produktus bez maršrutiem)
-
-### Uzlabojumi `booking_products` tabulā:
-- `product_price_at_booking`
-- `product_name_snapshot`
-
-### Uzlabojumi `prepayment` tabulā:
-- `transaction_id` lauks maksājumu identifikācijai
-
-### Uzlabota `statuses` tabula:
-Ievesta **status_type** sistēma:
-- 1 – bookings
-- 2 – products
-- 3 – payments
-- 4 – clients
-- 5 – waitlist
-
-Pievienoti arī **jauni statusi** gaidīšanas sarakstam.
-
-### Jaunumi `waitlist` tabulā:
-- `status_id`
-- `notes`
-- `email` un `product_id` indeksi
+Šī versija ievieš pilnībā funkcionējošu rezervācijas sistēmu ar produktu izvēli, daudzumu, automātisku cenu aprēķinu, priekšapmaksu un uzlabotu lietotāja pieredzi.
 
 ---
 
-## **2. Fundamentāls pamats rezervēšanas sistēmai**
-Versija 4.1 sagatavo mājaslapu nākamajiem soļiem:
+## **Kas jauns versijā 5.0**
 
-- Produktu pieejamības pārbaude pa datumiem
-- Automātiska kopējās cenas aprēķināšana
-- Priekšapmaksas (50%) aprēķins un sūtīšana klientam
-- Atlaižu vai cita veida papildus maksājumu atbalsts
-- Gaidīšanas saraksta sistēma
-- Paziņojumu nosūtīšana, kad produkts atkal ir pieejams
+### 1. Pilnībā strādājoša rezervācijas forma
+- Klients var ievadīt savus datus.
+- Var izvēlēties produktus un to daudzumu.
+- Pieejamais daudzums tiek kontrolēts jau frontend pusē.
+- Visi aprēķini notiek automātiski.
+
+### 2. Automātisks cenu aprēķins
+- Sistēma rēķina:
+  - Kopējo cenu
+  - 50% priekšapmaksu
+  - Atlikumu (jāmaksā uz vietas)
+- Aprēķini atjaunojas līdzi katrai izmaiņai.
+
+### 3. Uzlabota produktu atlase
+- Katram produktam ir pieejams daudzums (`available_units` no DB).
+- Klients nevar izvēlēties vairāk, nekā reāli pieejams.
+- Izvēle kļuvusi vizuāli tīrāka un ērtāka.
+
+### 4. UI / UX pilnveide
+- Rezervācijas sadaļa pārstrādāta un sakārtota.
+- Dizains modernizēts, ievērojot iepriekšējo stilu.
+- Notīrīts liekais CSS un kods optimizēts.
+
+### 5. Backend atjauninājumi
+- Rezervācija veiksmīgi tiek saglabāta datubāzē.
+- Skārieni nav vajadzīgi — dati nonāk DB automātiski.
+
+---
+
+## Datu bāzes izmaiņas (salīdzinot ar 4.1)
+
+- Produkta daudzuma lauks: `available_units`
+- Rezervācijas glabā:
+  - klienta datus
+  - izvēlētos produktus un to daudzumu
+  - cenu aprēķinu
+  - priekšapmaksas un atlikuma summas
+
+Struktūra sagatavota nākamajiem soļiem:  
+→ pieejamības pārbaude pa datumiem  
+→ reālā laika atlikumu aprēķināšana  
+→ gaidīšanas saraksti  
+→ e-pastu un rēķinu ģenerēšana  
+
+---
+
+## Nākamie soļi
+- E-pasta apstiprinājuma nosūtīšana klientam.  
+- PDF rēķina ģenerēšana.  
+- Produktu rezervēšana pa datumiem, lai nepieļautu pārdošanu.  
+- Admin panelis rezervāciju apskatei.  
+- Stripe vai Swedbank maksājumu integrācija priekšapmaksai.
 
 ---
 
 ## Autors
 **Adrians Vincents Šuķevics**
 
-**Datubāze:** MySQL  
-**Versija:** 4.1  
-**Datums:** 2025-11-22
+**Datu bāze:** MySQL  
+**Versija:** 5.0  
+**Datums:** 2025-12-01  
+
